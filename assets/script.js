@@ -16,17 +16,22 @@ $("#search-button").click(function(e) {
         var lat = data.city.coord.lat; // pulls in lat
         var lon = data.city.coord.lon; // pulls in lon
         var tempC = data.list[0].main.temp - 273.15; // converts Kelvin to Celsius
-        var icon = data.list[0].weather[0].icon;
+        var icon = data.list[0].weather[0].icon; // pulls icon code in
+        var humidity = data.list[0].main.humidity; // pulls in humidity
+        var windSpeed = data.list[0].wind.speed * 3.6; // pulls in wind speed (metre/sec) + converts to km/hr
+
         var iconImg = `https://openweathermap.org/img/wn/` + icon + `@2x.png`;
         console.log(iconImg);
         var queryURL5days = "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid=" + API;
 
+        // prints weather icon
         weatherToday.append($("<img>").attr("src", iconImg).addClass("icon"))
 
         // prints city name, adds today's date, puts in div class
         weatherToday.append($("<span>").text(data.city.name).append(today).addClass("currentCity"));
-        weatherToday.append($("<span>").text(tempC.toFixed(2) + " °C").addClass("currentTemp"));
-        weatherToday.append($("<span>").text())
+        weatherToday.append($("<span>").text("Temp: " + tempC.toFixed(2) + " °C").addClass("currentTemp"));
+        weatherToday.append($("<span>").text("Wind : " + windSpeed + " km/h"));
+        weatherToday.append($("<span>").text("Humidity: " + humidity + " %"));
         weatherToday.append($("<h2>").text(data.list[0].dt_txt));
         console.log(data);
         // forecastDisplay = [];
@@ -35,6 +40,18 @@ $("#search-button").click(function(e) {
             url: queryURL5days,
             method: "GET"
         }).then(function(data) {
+            for (let i = 8; i < data.list.length; i++) {
+                if (i % 8 === 0 || i === data.list.length - 1) {
+                    console.log(data);
+                    console.log(i +' iterations have passed')
+                    weatherForecast.append($("<h2>").text(data.list[i].dt_txt));
+
+                }
+
+            //     // if (i % 4 === 0) {
+            //     //     // printing forecast of next 5 days
+            //     // }
+
             // for (const forecast of data.list.slice(0, 8)) {
             //     this.forecastDisplay.push({
             //         time: forecast.dt_txt,
@@ -52,20 +69,6 @@ $("#search-button").click(function(e) {
 
 
             // const forecast = (arr, nth) => arr.filter((e, i) => i % nth === nth - 1);
-
-
-
-            for (let i = 8; i < data.list.length; i++) {
-                if (i % 8 === 0 || i === data.list.length - 1) {
-                    console.log(data);
-                    console.log(i +' iterations have passed')
-                    weatherForecast.append($("<h2>").text(data.list[i].dt_txt));
-
-                }
-
-            //     // if (i % 4 === 0) {
-            //     //     // printing forecast of next 5 days
-            //     // }
             
                 console.log(i)
             };
