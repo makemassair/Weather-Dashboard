@@ -39,17 +39,21 @@ $("#search-button").click(function(e) {
             url: queryURL5days,
             method: "GET"
         }).then(function(data) {
-            // setting the date range for the 5 day forecase
-            const start = new Date(today);
-            const end = new Date(m.add(5, 'days'));
-            console.log(end);
-
+            // setting the date range for the 5 day forecast
+            const start = new Date(m);
+            const end = new Date(m.add(4, 'days'));
+            
             let loop = new Date(start);
             while (loop <= end) {
-                console.log(loop);
+                // console.log(loop);
                 let newDate = loop.setDate(loop.getDate() + 1);
                 loop = new Date(newDate);
-}
+                var date = moment();
+                var forecastDay = date.format('dddd');
+                weatherForecast.append($("<div>").text(forecastDay).addClass("forecastDay"));
+            }
+
+            // var NowMoment = moment(); var eDisplayMoment = document.getElementById('displayMoment'); eDisplayMoment.innerHTML = NowMoment.format('YYYY-M-D'); 
 
             // var tempC = data.list[i].main.temp - 273.15; // converts Kelvin to Celsius
             // var icon = data.list[i].weather[i].icon; // pulls icon code in
@@ -61,7 +65,7 @@ $("#search-button").click(function(e) {
                     console.log(data);
                     // console.log(date);
                     
-                    weatherForecast.append($("<h2>").text(data.list[i].dt_txt));
+                    // weatherForecast.append($("<h2>").text(data.list[i].dt_txt));
 
                 }
 
