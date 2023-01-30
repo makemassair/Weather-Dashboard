@@ -1,4 +1,5 @@
 const today = moment().format('dddd, MMMM D, YYYY');
+m = moment();
 const API = "1de5c8ed9f7d7f5f4ff02c6b0cafa457";
 var weatherToday = $("#today");
 var weatherForecast = $("#forecast");
@@ -19,9 +20,8 @@ $("#search-button").click(function(e) {
         var icon = data.list[0].weather[0].icon; // pulls icon code in
         var humidity = data.list[0].main.humidity; // pulls in humidity
         var windSpeed = data.list[0].wind.speed * 3.6; // pulls in wind speed (metre/sec) + converts to km/hr
-
         var iconImg = `https://openweathermap.org/img/wn/` + icon + `@2x.png`;
-        console.log(iconImg);
+
         var queryURL5days = "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid=" + API;
 
         // prints weather icon
@@ -34,16 +34,33 @@ $("#search-button").click(function(e) {
         weatherToday.append($("<span>").text("Humidity: " + humidity + " %"));
         weatherToday.append($("<h2>").text(data.list[0].dt_txt));
         console.log(data);
-        // forecastDisplay = [];
         
         $.ajax({
             url: queryURL5days,
             method: "GET"
         }).then(function(data) {
+            // setting the date range for the 5 day forecase
+            const start = new Date(today);
+            const end = new Date(m.add(5, 'days'));
+            console.log(end);
+
+            let loop = new Date(start);
+            while (loop <= end) {
+                console.log(loop);
+                let newDate = loop.setDate(loop.getDate() + 1);
+                loop = new Date(newDate);
+}
+
+            // var tempC = data.list[i].main.temp - 273.15; // converts Kelvin to Celsius
+            // var icon = data.list[i].weather[i].icon; // pulls icon code in
+            // var humidity = data.list[i].main.humidity; // pulls in humidity
+            // var windSpeed = data.list[i].wind.speed * 3.6; // pulls in wind speed + converts to km/hr
             for (let i = 8; i < data.list.length; i++) {
                 if (i % 8 === 0 || i === data.list.length - 1) {
+                    // var date = moment().add(i, 'day');
                     console.log(data);
-                    console.log(i +' iterations have passed')
+                    // console.log(date);
+                    
                     weatherForecast.append($("<h2>").text(data.list[i].dt_txt));
 
                 }
@@ -70,16 +87,16 @@ $("#search-button").click(function(e) {
 
             // const forecast = (arr, nth) => arr.filter((e, i) => i % nth === nth - 1);
             
-                console.log(i)
+                // console.log(i)
             };
             // newArr = data.list.filter(function(value, index, Arr) {
             //     return console.log(index % 8 == 0);
             // });
-            console.log(typeof data.list);
-            console.log(index);
+            // console.log(typeof data.list);
+            // console.log(index);
 
-            console.log(data);
-            console.log(data.list[0].weather[0].description);
+            // console.log(data);
+            // console.log(data.list[0].weather[0].description);
             
         });
 
