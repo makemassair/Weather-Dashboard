@@ -15,9 +15,7 @@ $("#search-button").click(function(e) {
         searchArray.push(cityName)
         console.log(searchArray);
         localStorage.setItem(`searches`, JSON.stringify(searchArray)); // puts the searched city into storage
-        
-        searchHistoryRecall()
-        displaySearchHistory()
+    
     } 
     
     console.log(cityName);
@@ -72,6 +70,9 @@ $("#search-button").click(function(e) {
             };
         });
     });
+
+    searchHistoryRecall();
+    displaySearchHistory();
 
 });
 
