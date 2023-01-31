@@ -14,10 +14,11 @@ $("#search-button").click(function(e) {
     } else {
         searchArray.push(cityName)
         console.log(searchArray);
-        localStorage.setItem(`searches`, JSON.stringify(searchArray));
-         // puts the searched city into storage
+        localStorage.setItem(`searches`, JSON.stringify(searchArray)); // puts the searched city into storage
+        
+        searchHistoryRecall()
+        displaySearchHistory()
     } 
-    searchHistoryRecall();  
     
     console.log(cityName);
     var queryURL ="https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&appid=" + API;
@@ -83,19 +84,55 @@ function searchHistoryRecall() {
         displaySearchHistory(searchArray);
     }
 };
-searchHistoryRecall();
 
 // print searched cities    
-function displaySearchHistory(data) {
-    for (let i = 0; i < data.length; i++) {
-        const element = data[i];
-        if (data[i].includes(cityName)) {
-            weatherHistory.prepend($(`${element}`))
-            console.log(weatherHistory);
+function displaySearchHistory(searchData) {
+    for (let i = 0; i < searchData.length; i++) {
+        console.log(searchData);
+        const element = searchData[i];
+        if (searchData[i].includes(cityName)) {
+            weatherHistory.prepend($(`<button class="past-search btn btn-outline-dark mb-2" data-city="${element}">`).text(element));
         }
         
     }
-}
+};
+searchHistoryRecall();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // // adds city to search history + is made available as input text
