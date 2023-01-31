@@ -1,5 +1,5 @@
-const today = moment().format('dddd, MMMM D, YYYY');
 const API = "1de5c8ed9f7d7f5f4ff02c6b0cafa457";
+const today = moment().format('dddd, MMMM D, YYYY');
 var weatherToday = $("#today");
 var weatherForecast = $("#forecast");
 var searchHistory = $("#history");
@@ -13,13 +13,9 @@ $("#search-button").click(function(e) {
     } else {
         searches.push(cityName)
         console.log(searches);
-        localStorage.setItem("searchingHistory", JSON.stringify(searches));
+        localStorage.setItem(`searchingHistory`, JSON.stringify(searches)); // puts the searched city into storage
     } 
-    recallHistory();
-    // getCurrentCity();
-    // forecastTitle.empty()
-    // weatherForecast.empty()
-    
+    // recallHistory();    
     
     console.log(cityName);
     var queryURL ="https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&appid=" + API;
@@ -77,14 +73,36 @@ $("#search-button").click(function(e) {
 
 
 
+    // retrieve searched cities
+    var storedCities = localStorage.getItem(`searchingHistory`);
+    console.log('storedCities: ', JSON.parse(storedCities));
 
 });
 
+// var searches = []
+
+
+
+
 // // adds city to search history + is made available as input text
-function recallHistory (searchingHistory) {
-    var storedCities = localStorage.getItem("searchingHistory");
-    if (storedCities) {
-        var storedCities = JSON.parse(storedCities);
-        console.log(storedCities);
-    }
-}
+// function recallHistory (searchingHistory) {
+//     var storedCities = localStorage.getItem("searchingHistory");
+//     if (storedCities) {
+//         var storedCities = JSON.parse(storedCities);
+//         console.log(storedCities);
+//     }
+
+// }
+
+// function printSearchHistory(searchingHistory) {
+//     for (let i = 0; i < searchingHistory.length; i++) {
+//         const element = searchingHistory[i];
+//         if (searchingHistory[i].includes(cityName)) {
+//             searchHistory.prepend($(`<button class="btn searched" data-city="${element}}>`.text(element)))
+//         }
+//         console.log(searchHistory);
+//     }
+// }
+
+// printSearchHistory();
+// recallHistory();
