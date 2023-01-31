@@ -2,20 +2,22 @@ const API = "1de5c8ed9f7d7f5f4ff02c6b0cafa457";
 const today = moment().format('dddd, MMMM D, YYYY');
 var weatherToday = $("#today");
 var weatherForecast = $("#forecast");
-var searchHistory = $("#history");
-var searches = [];
+var weatherHistory = $("#history");
+let cityName = "";
+let searchArray = []; // declare variable as empty array
 
 $("#search-button").click(function(e) {
     e.preventDefault();
     var cityName = $("#search-input").val();
-    if (searches.includes(cityName) || cityName === "") {
+    if (searchArray.includes(cityName) || cityName === "") {
         return;
     } else {
-        searches.push(cityName)
-        console.log(searches);
-        localStorage.setItem(`searchingHistory`, JSON.stringify(searches)); // puts the searched city into storage
+        searchArray.push(cityName)
+        console.log(searchArray);
+        localStorage.setItem(`searches`, JSON.stringify(searchArray));
+         // puts the searched city into storage
     } 
-    // recallHistory();    
+    searchHistoryRecall();  
     
     console.log(cityName);
     var queryURL ="https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&appid=" + API;
@@ -70,18 +72,30 @@ $("#search-button").click(function(e) {
         });
     });
 
-
-
-
-    // retrieve searched cities
-    var storedCities = localStorage.getItem(`searchingHistory`);
-    console.log('storedCities: ', JSON.parse(storedCities));
-
 });
 
-// var searches = []
+// retrieve searched cities
+function searchHistoryRecall() {
+    var searchHistory = localStorage.getItem('searches');
+    console.log(searchHistory);
+    if (searchHistory) {
+        searchArray = JSON.parse(searchHistory);
+        displaySearchHistory(searchArray);
+    }
+};
+searchHistoryRecall();
 
-
+// print searched cities    
+function displaySearchHistory(data) {
+    for (let i = 0; i < data.length; i++) {
+        const element = data[i];
+        if (data[i].includes(cityName)) {
+            weatherHistory.prepend($(`${element}`))
+            console.log(weatherHistory);
+        }
+        
+    }
+}
 
 
 // // adds city to search history + is made available as input text
