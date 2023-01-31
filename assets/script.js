@@ -40,32 +40,36 @@ $("#search-button").click(function(e) {
             method: "GET"
         }).then(function(data) {
             // setting the date range for the 5 day forecast
-            const start = new Date(m);
-            const end = new Date(m.add(4, 'days'));
+            // const start = moment();
+            // const end = moment().add(4, 'days');
             
-            let loop = new Date(start);
-            while (loop <= end) {
-                // console.log(loop);
-                let newDate = loop.setDate(loop.getDate() + 1);
-                loop = new Date(newDate);
-                var date = moment();
-                var forecastDay = date.format('dddd');
-                weatherForecast.append($("<div>").text(forecastDay).addClass("forecastDay"));
-            }
+            // let loop = new Date(start);
+            // while (loop <= end) {
+            //     // console.log(loop);
+            //     let newDate = loop.setDate(loop.getDate() + 1);
+            //     loop = new Date(newDate);
+            //     var date = moment();
+            //     var forecastDay = date.format('dddd');
+            //     weatherForecast.append($("<div>").text(forecastDay).addClass("forecastDay"));
+            // }
 
             // var NowMoment = moment(); var eDisplayMoment = document.getElementById('displayMoment'); eDisplayMoment.innerHTML = NowMoment.format('YYYY-M-D'); 
-
-            // var tempC = data.list[i].main.temp - 273.15; // converts Kelvin to Celsius
-            // var icon = data.list[i].weather[i].icon; // pulls icon code in
-            // var humidity = data.list[i].main.humidity; // pulls in humidity
-            // var windSpeed = data.list[i].wind.speed * 3.6; // pulls in wind speed + converts to km/hr
+            
             for (let i = 8; i < data.list.length; i++) {
                 if (i % 8 === 0 || i === data.list.length - 1) {
-                    // var date = moment().add(i, 'day');
-                    console.log(data);
+                    var date = moment().add(i, 'day');
+                    var tempC = data.list[i].main.temp - 273.15; // converts Kelvin to Celsius
+                    var icon = data.list[i].weather[0].icon; // pulls icon code in
+                    var iconTxt = data.list[i].weather[0].description // pulls in weather description
+                    var iconImg = `https://openweathermap.org/img/wn/` + icon + `@2x.png`; // adds icon code to url
+                    var humidity = data.list[i].main.humidity; // pulls in humidity
+                    var windSpeed = data.list[i].wind.speed * 3.6; // pulls in wind speed + converts to km/hr
+                    // console.log(data);
                     // console.log(date);
-                    
-                    // weatherForecast.append($("<h2>").text(data.list[i].dt_txt));
+                    weatherForecast.append(`
+                    <p class="date">${moment(data.list[i].dt_txt).format('dddd')}</p>
+                    `)
+                    weatherForecast.append($("<img>").attr("src", iconImg).attr("alt", iconTxt).addClass("icon"))
 
                 }
 
