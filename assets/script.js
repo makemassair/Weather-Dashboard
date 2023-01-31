@@ -1,12 +1,26 @@
 const today = moment().format('dddd, MMMM D, YYYY');
-m = moment();
 const API = "1de5c8ed9f7d7f5f4ff02c6b0cafa457";
 var weatherToday = $("#today");
 var weatherForecast = $("#forecast");
+var searchHistory = $("#history");
+var searches = [];
 
 $("#search-button").click(function(e) {
     e.preventDefault();
     var cityName = $("#search-input").val();
+    if (searches.includes(cityName) || cityName === "") {
+        return;
+    } else {
+        searches.push(cityName)
+        console.log(searches);
+        localStorage.setItem("searchingHistory", JSON.stringify(searches));
+    } 
+    recallHistory();
+    // getCurrentCity();
+    // forecastTitle.empty()
+    // weatherForecast.empty()
+    
+    
     console.log(cityName);
     var queryURL ="https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&appid=" + API;
     
@@ -30,7 +44,7 @@ $("#search-button").click(function(e) {
         // prints city name, adds today's date, puts in div class
         weatherToday.append($("<span>").text(data.city.name).append(today).addClass("currentCity"));
         weatherToday.append($("<span>").text("Temp: " + tempC.toFixed(2) + " °C").addClass("currentTemp"));
-        weatherToday.append($("<span>").text("Wind : " + windSpeed + " km/h"));
+        weatherToday.append($("<span>").text("Wind : " + windSpeed.toFixed(2) + " km/h"));
         weatherToday.append($("<span>").text("Humidity: " + humidity + " %"));
         weatherToday.append($("<h2>").text(data.list[0].dt_txt));
         console.log(data);
@@ -38,23 +52,7 @@ $("#search-button").click(function(e) {
         $.ajax({
             url: queryURL5days,
             method: "GET"
-        }).then(function(data) {
-            // setting the date range for the 5 day forecast
-            // const start = moment();
-            // const end = moment().add(4, 'days');
-            
-            // let loop = new Date(start);
-            // while (loop <= end) {
-            //     // console.log(loop);
-            //     let newDate = loop.setDate(loop.getDate() + 1);
-            //     loop = new Date(newDate);
-            //     var date = moment();
-            //     var forecastDay = date.format('dddd');
-            //     weatherForecast.append($("<div>").text(forecastDay).addClass("forecastDay"));
-            // }
-
-            // var NowMoment = moment(); var eDisplayMoment = document.getElementById('displayMoment'); eDisplayMoment.innerHTML = NowMoment.format('YYYY-M-D'); 
-            
+        }).then(function(data) {        
             for (let i = 8; i < data.list.length; i++) {
                 if (i % 8 === 0 || i === data.list.length - 1) {
                     var date = moment().add(i, 'day');
@@ -66,49 +64,27 @@ $("#search-button").click(function(e) {
                     var windSpeed = data.list[i].wind.speed * 3.6; // pulls in wind speed + converts to km/hr
                     // console.log(data);
                     // console.log(date);
-                    weatherForecast.append(`
-                    <p class="date">${moment(data.list[i].dt_txt).format('dddd')}</p>
-                    `)
-                    weatherForecast.append($("<img>").attr("src", iconImg).attr("alt", iconTxt).addClass("icon"))
-
+                    weatherForecast.append(`<p class="date">${moment(data.list[i].dt_txt).format('dddd')}</p>`);
+                    weatherForecast.append($("<img>").attr("src", iconImg).attr("alt", iconTxt).addClass("icon"));
+                    weatherForecast.append($("<span>").text("Temp: " + tempC.toFixed(2) + " °C").addClass("currentTemp"));
+                    weatherForecast.append($("<span>").text("Wind : " + windSpeed.toFixed(2) + " km/h"));
+                    weatherForecast.append($("<span>").text("Humidity: " + humidity + " %"));
                 }
-
-            //     // if (i % 4 === 0) {
-            //     //     // printing forecast of next 5 days
-            //     // }
-
-            // for (const forecast of data.list.slice(0, 8)) {
-            //     this.forecastDisplay.push({
-            //         time: forecast.dt_txt,
-            //         temp: forecast.main.temp
-            //         // humd: forecast.humidity,
-            //         // icon: forecast.weather.icon,
-            //         // wind: forecast.wind.speed
-            //     });
-            //     console.log(forecast);
-            //     console.log(forecastDisplay);
-            // }
-
-            // let forecast = data.list.filter((_, i) => i % 8 == 0);
-            // console.log(forecast);
-
-
-            // const forecast = (arr, nth) => arr.filter((e, i) => i % nth === nth - 1);
-            
-                // console.log(i)
             };
-            // newArr = data.list.filter(function(value, index, Arr) {
-            //     return console.log(index % 8 == 0);
-            // });
-            // console.log(typeof data.list);
-            // console.log(index);
-
-            // console.log(data);
-            // console.log(data.list[0].weather[0].description);
-            
         });
-
-
     });
+
+
+
+
+
 });
 
+// // adds city to search history + is made available as input text
+function recallHistory (searchingHistory) {
+    var storedCities = localStorage.getItem("searchingHistory");
+    if (storedCities) {
+        var storedCities = JSON.parse(storedCities);
+        console.log(storedCities);
+    }
+}
