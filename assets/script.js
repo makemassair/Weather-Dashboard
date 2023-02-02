@@ -29,7 +29,6 @@ function getCity(cityName) {
         weatherToday.append($("<span>").text("Temp: " + tempC.toFixed(2) + " °C").addClass("currentTemp"));
         weatherToday.append($("<span>").text("Wind : " + windSpeed.toFixed(2) + " km/h"));
         weatherToday.append($("<span>").text("Humidity: " + humidity + " %"));
-        weatherToday.append($("<h2>").text(data.list[0].dt_txt));
         
         if (cityName !== "" && !searchArray.includes(cityName)) {
             searchArray.push(cityName);
@@ -63,11 +62,38 @@ function getForecast(lat, lon) {
                 var humidity = data.list[i].main.humidity; // pulls in humidity
                 var windSpeed = data.list[i].wind.speed * 3.6; // pulls in wind speed + converts to km/hr
 
-                weatherForecast.append(`<p class="date">${moment(data.list[i].dt_txt).format('dddd')}</p>`);
-                weatherForecast.append($("<img>").attr("src", iconImg).attr("alt", iconTxt).addClass("icon"));
-                weatherForecast.append($("<span>").text("Temp: " + tempC.toFixed(2) + " °C").addClass("currentTemp"));
-                weatherForecast.append($("<span>").text("Wind : " + windSpeed.toFixed(2) + " km/h"));
-                weatherForecast.append($("<span>").text("Humidity: " + humidity + " %"));
+                let forecastCard = $(`<div>`)
+                .addClass("card forecastCard")
+
+                let forecastDate = $(`<span>`)
+                .addClass("forecastDate h4")
+                .text(`${moment(data.list[i].dt_txt).format('dddd')}`)
+
+                let forecastIcon = $("<img>")
+                .attr("src", iconImg).attr("alt", iconTxt)
+                .addClass("icon")
+
+                let forecastTemp = $(`<span>`)
+                .addClass("forecastTemp")
+                .text("Temp: " + tempC.toFixed(2) + " °C").addClass("currentTemp")
+
+                let forecastWind = $(`<span>`)
+                .addClass("forecastWind")
+                .text("Wind : " + windSpeed.toFixed(2) + " km/h")
+
+                let forecastHumidity = $(`<span>`)
+                .addClass("forecastHumidity")
+                .text("Humidity: " + humidity + " %")
+
+                // append HTML elements
+                forecastCard.append(forecastDate);
+                forecastCard.append(forecastIcon);
+                forecastCard.append(forecastTemp);
+                forecastCard.append(forecastWind);
+                forecastCard.append(forecastHumidity);
+
+                // append to HTML existing structre
+                weatherForecast.append(forecastCard);
             }
         };
     });
