@@ -1,0 +1,17 @@
+button, input {border: 1px solid darkgray; padding: 12px; width: 100%;}
+.btn-outline-dark {background: skyblue; border: 2px solid skyblue; padding: 0.6em;}
+.btn {font-size: 14px;}
+.btn-outline-dark:focus, .btn-outline-dark:hover {color: white;}
+.input-group-append {flex-direction: column; row-gap: 8px; margin: 12px 0 0; width: 100%;}
+.weather-header h1 {padding: 1.2em 2.2em;}
+.h3 {color: black; font-size: 100%;}
+.h4 {border-top: 1px solid rgba(0,0,0,0.1);font-size: 96%;padding: 24px 0 0;}
+.weather-header {background-image: url("background.jpg");border-bottom: 12px solid skyblue;margin: 0 0 4em;}
+.search-button {background: limegreen;color: darkgreen;font-weight: bold;padding: 16px;text-transform: uppercase;width: 100%;}
+.search-button:focus, .search-button:hover {background: forestgreen;color: white;}
+.clear-button {background: darkgray;color: black;padding: 8px;text-transform: uppercase; width: 100%;}
+.clear-button:focus, .clear-button:hover {background: grey;color: white;}
+.card {border-color: skyblue;border-radius: 0;}
+.currentWeather, .forecastCard {padding: 2em;}
+#today img, #forecast img {width: 100px;}
+#forecast {column-gap: 10px;display: flex;justify-content: space-between;margin: 0;}

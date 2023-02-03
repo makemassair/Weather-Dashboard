@@ -20,15 +20,47 @@ function getCity(cityName) {
         var icon = data.list[0].weather[0].icon; // pulls icon code in
         var humidity = data.list[0].main.humidity; // pulls in humidity
         var windSpeed = data.list[0].wind.speed * 3.6; // pulls in wind speed (metre/sec) + converts to km/hr
+        var iconTxt = data.list[0].weather[0].description // pulls in weather description
         var iconImg = `https://openweathermap.org/img/wn/` + icon + `@2x.png`;
+
+        let cityCard = $(`<div>`)
+        .addClass(`card currentWeather`)
+
+        let cityCardName = $(`<h4>`)
+        .addClass(`currentCity`).text(data.city.name)
         
-        weatherToday.append($("<img>").attr("src", iconImg).addClass("icon")) // prints weather icon
+        let cityCardDate = $(`<p>`) 
+        .addClass(`date`).text(today)
+
+        let cityCardIcon = $(`<img>`)
+        .addClass(`icon`).attr(`src`, iconImg).attr(`alt`, iconTxt)
+
+        let cityCardTemp = $(`<span>`)
+        .addClass(`currentTemp`).text(`Temp: ` + tempC.toFixed(2) + ` °C`)
+
+        let cityCardWind = $(`<span>`)
+        .addClass(`windSpeed`).text(`Wind : ` + windSpeed.toFixed(2) + ` km/h`)
+
+        let citycardHumidity = $(`<span>`)
+        .addClass(`humidity`).text(`Humidity: ` + humidity + ` %`);
+
+        // append HTML elements
+        cityCard.append(cityCardName);
+        cityCard.append(cityCardDate);
+        cityCard.append(cityCardIcon);
+        cityCard.append(cityCardTemp);
+        cityCard.append(cityCardWind);
+        cityCard.append(citycardHumidity);
+        
+        weatherToday.append(cityCard);
+        
+        // weatherToday.append($("<img>").attr("src", iconImg).addClass("icon")) // prints weather icon
         
         // prints city name, adds today's date, puts in div class
-        weatherToday.append($("<span>").text(data.city.name).append(today).addClass("currentCity"));
-        weatherToday.append($("<span>").text("Temp: " + tempC.toFixed(2) + " °C").addClass("currentTemp"));
-        weatherToday.append($("<span>").text("Wind : " + windSpeed.toFixed(2) + " km/h"));
-        weatherToday.append($("<span>").text("Humidity: " + humidity + " %"));
+        // weatherToday.append($("<span>"));
+        // weatherToday.append($("<span>")));
+        // weatherToday.append($("<span>"));
+        // weatherToday.append($("<span>"));
         
         if (cityName !== "" && !searchArray.includes(cityName)) {
             searchArray.push(cityName);
@@ -63,27 +95,22 @@ function getForecast(lat, lon) {
                 var windSpeed = data.list[i].wind.speed * 3.6; // pulls in wind speed + converts to km/hr
 
                 let forecastCard = $(`<div>`)
-                .addClass("card forecastCard")
+                .addClass(`card forecastCard`)
 
-                let forecastDate = $(`<span>`)
-                .addClass("forecastDate h4")
-                .text(`${moment(data.list[i].dt_txt).format('dddd')}`)
+                let forecastDate = $(`<h4>`)
+                .addClass(`forecastDate`).text(`${moment(data.list[i].dt_txt).format(`dddd`)}`)
 
-                let forecastIcon = $("<img>")
-                .attr("src", iconImg).attr("alt", iconTxt)
-                .addClass("icon")
+                let forecastIcon = $(`<img>`)
+                .addClass(`icon`).attr(`src`, iconImg).attr(`alt`, iconTxt)
 
                 let forecastTemp = $(`<span>`)
-                .addClass("forecastTemp")
-                .text("Temp: " + tempC.toFixed(2) + " °C").addClass("currentTemp")
+                .addClass(`forecastTemp`).text(`Temp: ` + tempC.toFixed(2) + ` °C`)
 
                 let forecastWind = $(`<span>`)
-                .addClass("forecastWind")
-                .text("Wind : " + windSpeed.toFixed(2) + " km/h")
+                .addClass(`forecastWind`).text(`Wind : ` + windSpeed.toFixed(2) + ` km/h`)
 
                 let forecastHumidity = $(`<span>`)
-                .addClass("forecastHumidity")
-                .text("Humidity: " + humidity + " %")
+                .addClass(`forecastHumidity`).text(`Humidity: ` + humidity + ` %`)
 
                 // append HTML elements
                 forecastCard.append(forecastDate);
