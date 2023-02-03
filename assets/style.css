@@ -14,4 +14,6 @@ button, input {border: 1px solid darkgray; padding: 12px; width: 100%;}
 .card {border-color: skyblue;border-radius: 0;}
 .currentWeather, .forecastCard {padding: 2em;}
 #today img, #forecast img {width: 100px;}
-#forecast {column-gap: 10px;display: flex;justify-content: space-between;margin: 0;}
+#forecast {column-gap: 10px;display: flex;justify-content: flex-start;margin: 0;row-gap: 12px;}
+
+@media (max-width: 576px) {.currentWeather, .forecastCard {width: 100%;}}
