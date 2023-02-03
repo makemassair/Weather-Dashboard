@@ -46,7 +46,7 @@ SO THAT I can plan a trip accordingly
 
 ### Deployed Application
 
-View the deployed application for Module 8: Weather Dashboard  at [makemassair.github.io](https://makemassair.github.io/Work-Day-Scheduler/).
+View the deployed application for Module 8: Weather Dashboard  at [makemassair.github.io](https://makemassair.github.io/Weather-Dashboard).
 
 ### Screenshot
 
